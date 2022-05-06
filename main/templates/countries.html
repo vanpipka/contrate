@@ -1,0 +1,9 @@
+<ul>
+  {% for o in data %}
+  <li>
+    <a href="/ports?country={{o.name}}" tabindex="0">
+        {{o.name}}
+    </a>
+  </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,7 @@
+__pycache__
+__init__.py
+contrailsite/settings.py
+contrailsite/fbcert/*
+db.sqlite3
+manage.py
+myvenv/
