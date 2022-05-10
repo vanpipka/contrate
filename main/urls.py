@@ -12,12 +12,14 @@ from . import views
 # }
 
 urlpatterns = [
-    # path('', views.index),
+    path('', views.index),
     path('robots.txt', views.robots),
     # path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('test/', views.test, name='test'),
-    path('countries/', views.countries, name='countries'),
-    path('ports/', views.ports, name='ports'),
+    path('referencebook/countries/', views.countries, name='countries'),
+    path('referencebook/countriesmap/', views.countriesmap, name='countries'),
+    path('referencebook/containers/', views.containers, name='containers'),
+    path('referencebook/ports/', views.ports, name='ports'),
     # path('accounts/registration/', views.registration, name='registration'),
 
 ]

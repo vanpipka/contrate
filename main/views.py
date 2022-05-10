@@ -32,9 +32,40 @@ def test(request):
     return HttpResponse("Hello, world. You're at the test page.")
 
 
+def index(request):
+
+    return render(
+        request,
+        'tmplts/main.html',
+        context={"data": countries}
+    )
+
+
 def countries(request):
 
     countries = firebaseAPI.getCountries('')
+
+    return render(
+        request,
+        'countries.html',
+        context={"data": countries}
+    )
+
+
+def countriesmap(request):
+
+    countries = firebaseAPI.getCountries('')
+
+    return render(
+        request,
+        'tmplts/countriesmap.html',
+        context={"data": countries}
+    )
+
+
+def containers(request):
+
+    # countries = firebaseAPI.getCountries('')
 
     return render(
         request,
@@ -48,8 +79,11 @@ def ports(request):
     country = request.GET.get("country", 'H&*78fegt834pgth3p')
     countries = firebaseAPI.getPorts(country=country)
 
+    for i in countries:
+        print(i['name'], i['latitude'], i['longitude'])
+
     return render(
         request,
-        'ports.html',
+        'tmplts/portsmap.html',
         context={"data": countries}
     )

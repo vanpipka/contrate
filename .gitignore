@@ -5,3 +5,4 @@ contrailsite/fbcert/*
 db.sqlite3
 manage.py
 myvenv/
+main/templates/ltr*
