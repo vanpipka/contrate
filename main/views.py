@@ -43,12 +43,18 @@ def index(request):
 
 def countries(request):
 
-    countries = firebaseAPI.getCountries('')
+    data = firebaseAPI.getCountries('')
+
+    arr_th = []
+
+    if len(data) != 0:
+        for i in data[0].keys():
+            arr_th.append(i)
 
     return render(
         request,
-        'countries.html',
-        context={"data": countries}
+        'tmplts/datatable.html',
+        context={"data": data, "h3": "Страны мира", "headers": arr_th}
     )
 
 
@@ -65,12 +71,17 @@ def countriesmap(request):
 
 def containers(request):
 
-    # countries = firebaseAPI.getCountries('')
+    data = firebaseAPI.getCargoTypes('')
+    arr_th = []
+
+    if len(data) != 0:
+        for i in data[0].keys():
+            arr_th.append(i)
 
     return render(
         request,
-        'countries.html',
-        context={"data": countries}
+        'tmplts/datatable.html',
+        context={"data": data, "h3": "Контейнеры", "headers": arr_th}
     )
 
 

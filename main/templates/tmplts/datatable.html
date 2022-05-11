@@ -1,0 +1,103 @@
+{% load static %}
+{% load home_extras %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'tmplts/includes/head.html' %}
+
+<body>
+
+    {% include 'tmplts/includes/header.html' %}
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+        <div class="overlay"></div>
+        <div class="cs-overlay"></div>
+
+        <!--  BEGIN SIDEBAR  -->
+        {% include 'tmplts/includes/sidebar.html' %}
+        <!--  END SIDEBAR  -->
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+              <div class="row layout-spacing mt-3">
+                    <div class="col-lg-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>{{h3}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    <table id="customer-info-detail-3" class="table style-3 table-bordered  table-hover">
+                                        <thead>
+                                            <tr>
+                                                {% for i in headers %}
+                                                  <th>{{i}}</th>
+                                                {% endfor %}
+                                                <!-- <th class="align-center">Status</th> -->
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                              {% for ref in data %}
+                                              <tr>
+                                                {% for i in headers %}
+                                                  <td>{{ref|get_item:i}}</td>
+                                                {% endfor %}
+                                                <!-- <td class="align-center"><span class="shadow-none badge badge-success">Approved</span></td> -->
+                                                <td class="text-center">
+                                                    <ul class="table-controls">
+                                                        <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="flaticon-edit  p-1 br-6 mb-1"></i></a></li>
+                                                        <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="flaticon-delete  p-1 br-6 mb-1"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                              </tr>
+                                              {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    <!--  BEGIN FOOTER  -->
+    {% include 'tmplts/includes/footer.html' %}
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN CONTROL SIDEBAR  -->
+    {% include 'tmplts/includes/controlsidebar.html' %}
+    <!--  END CONTROL SIDEBAR  -->
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% get_attribute 'HOME_PAGE' %}static/plugins/table/datatable/datatables.js"></script>
+    <script>
+
+        c3 = $('#customer-info-detail-3').DataTable({
+            "lengthMenu": [ 5, 10, 20, 50, 100 ],
+            "language": {
+                "paginate": {
+                  "previous": "<i class='flaticon-arrow-left-1'></i>",
+                  "next": "<i class='flaticon-arrow-right'></i>"
+                },
+                "info": "Showing page _PAGE_ of _PAGES_"
+            }
+        });
+
+        multiCheck(c3);
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+</body>
+</html>
