@@ -71,8 +71,27 @@ def getPorts(name='', country=''):
     return arr
 
 
+def getAirports(name=''):
+
+    collection = db.collection(u'airports')
+
+    query = collection.order_by('name').limit(3)
+
+    if name != '':
+        query = query.start_at([name]).end_at([name + '\uf8ff']).limit(3)
+
+    docs = query.stream()
+
+    arr = []
+
+    for doc in docs:
+        arr.append(doc.to_dict())
+
+    return arr
+
+
 def setAerodromsinfo():
-    
+
     return
     with open('contrailsite/fbcert/data/russian_aerodroms.json', encoding='utf-8-sig') as f:
 
@@ -148,4 +167,12 @@ def setData():
                     doc_ref.set(x)
 
 
+class Port:
+
+    emp_count = 0
+
+    def __init__(self, id):  
+        self.name = name
+        self.salary = salary
+        Employee.emp_count += 1
 # getCountries()

@@ -16,10 +16,14 @@ urlpatterns = [
     path('robots.txt', views.robots),
     # path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('test/', views.test, name='test'),
+
+    # СПИСКИ
     path('referencebook/countries/', views.countries, name='countries'),
-    path('referencebook/countriesmap/', views.countriesmap, name='countries'),
+    path('referencebook/airports/', views.airports, name='airports'),
+    path('referencebook/countriesmap/', views.countriesmap, name='countriesmap'),
     path('referencebook/containers/', views.containers, name='containers'),
     path('referencebook/ports/', views.ports, name='ports'),
-    # path('accounts/registration/', views.registration, name='registration'),
 
+    # ФОРМЫ
+    path('referencebook/port/', views.port, name='port'),
 ]

@@ -41,6 +41,8 @@ def index(request):
     )
 
 
+# Справочники
+
 def countries(request):
 
     data = firebaseAPI.getCountries('')
@@ -91,6 +93,39 @@ def ports(request):
     countries = firebaseAPI.getPorts(country=country)
 
     for i in countries:
+        print(i['name'], i['latitude'], i['longitude'])
+
+    return render(
+        request,
+        'tmplts/portsmap.html',
+        context={"data": countries}
+    )
+
+
+def airports(request):
+
+    data = firebaseAPI.getAirports('')
+    arr_th = []
+
+    if len(data) != 0:
+        for i in data[0].keys():
+            arr_th.append(i)
+
+    return render(
+        request,
+        'tmplts/datatable.html',
+        context={"data": data, "h3": "Аэропорты", "headers": arr_th}
+    )
+
+
+# Формы
+
+def port(request):
+
+    id = request.GET.get("id", 'H&*78fegt834pgth3p')
+    data = firebaseAPI.getPorts(id=id)
+
+    for i in data:
         print(i['name'], i['latitude'], i['longitude'])
 
     return render(
