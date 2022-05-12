@@ -46,12 +46,14 @@
                                               {% for ref in data %}
                                               <tr>
                                                 {% for i in headers %}
+                                                  {% if i  != 'url' %}
                                                   <td>{{ref|get_item:i}}</td>
+                                                  {% endif %}
                                                 {% endfor %}
                                                 <!-- <td class="align-center"><span class="shadow-none badge badge-success">Approved</span></td> -->
                                                 <td class="text-center">
                                                     <ul class="table-controls">
-                                                        <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="flaticon-edit  p-1 br-6 mb-1"></i></a></li>
+                                                        <li><a href="{{ref.url}}" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="flaticon-edit  p-1 br-6 mb-1"></i></a></li>
                                                         <li><a href="javascript:void(0);" class="bs-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="flaticon-delete  p-1 br-6 mb-1"></i></a></li>
                                                     </ul>
                                                 </td>

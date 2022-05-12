@@ -25,7 +25,10 @@ def getCargoTypes(name=''):
     arr = []
 
     for doc in docs:
-        arr.append(doc.to_dict())
+
+        data = doc.to_dict()
+        data['url'] = '/referencebook/container/?id=' + data['name']
+        arr.append(data)
 
     return arr
 
@@ -34,13 +37,10 @@ def getCountries(name='', id=''):
 
     collection = db.collection(u'countries')
 
-    query = collection.order_by('name')
-
     if name != '':
-        query = query.where(u'name', u'==', name)
-
-    if id != '':
-        query = query.where(u'id', u'==', id)
+        query = collection.where(u'name', u'==', name)
+    else:
+        query = collection.order_by('name')
 
     docs = query.stream()
 
@@ -178,18 +178,23 @@ class Country:
     def __init__(self, id):
 
         self.id = id
+        self.reftype = 'Country'
         self.getObject()
 
     def getObject(self):
 
+        print('get country ', self.id)
         data = getCountries(name=self.id)
 
         if len(data) > 0:
 
-            for i in data[0].keys():
+            for i in Country.getFields():
                 setattr(self, i, data[0][i])
 
-        print(self.__dict__)
+    @staticmethod
+    def getFields():
+
+        return(['name', 'icon'])
 
 
 class Port:
@@ -197,15 +202,24 @@ class Port:
     def __init__(self, id):
 
         self.id = id
+        self.reftype = 'Port'
         self.getObject()
 
     def getObject(self):
 
-        data = getPorts(id=self.id)
+        print('get port ', self.id)
+        data = getPorts(name=self.id)
 
-        setattr(self, 'name', data[0]['name'])
-        setattr(self, 'id', data[0]['id'])
-        setattr(self, 'country', Country(data[0]['country']['name']))
+        for i in Port.getFields():
+            if i == "country":
+                setattr(self, 'country', Country(data[0]['country']['name']).__dict__)
+            else:
+                setattr(self, i, data[0][i])
+
+    @staticmethod
+    def getFields():
+
+        return(['name', 'country'])
 
 
 class Container:
@@ -213,13 +227,21 @@ class Container:
     def __init__(self, id):
 
         self.id = id
+        self.reftype = 'Container'
         self.getObject()
 
     def getObject(self):
 
+        print('get container ', self.id)
         data = getCargoTypes(name=self.id)
 
-        setattr(self, 'name', data[0]['name'])
-        setattr(self, 'iso', data[0]['iso'])
+        for i in Container.getFields():
+            setattr(self, i, data[0][i])
+
+    @staticmethod
+    def getFields():
+
+        return(['name', 'iso'])
+
 
 # getCountries()
