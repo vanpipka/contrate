@@ -26,4 +26,5 @@ urlpatterns = [
 
     # ФОРМЫ
     path('referencebook/port/', views.port, name='port'),
+    path('referencebook/container/', views.container, name='container'),
 ]

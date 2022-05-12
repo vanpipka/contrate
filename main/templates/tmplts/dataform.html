@@ -1,0 +1,93 @@
+{% load static %}
+{% load home_extras %}
+<!DOCTYPE html>
+<html lang="en">
+{% include 'tmplts/includes/head.html' %}
+
+<body>
+
+    {% include 'tmplts/includes/header.html' %}
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+        <div class="overlay"></div>
+        <div class="cs-overlay"></div>
+
+        <!--  BEGIN SIDEBAR  -->
+        {% include 'tmplts/includes/sidebar.html' %}
+        <!--  END SIDEBAR  -->
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+              <div class="row layout-spacing mt-3">
+                    <div class="col-lg-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>{{h3}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox widget box box-shadow">
+                              <div class="widget-header">
+                                  <div class="row">
+                                      <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                          <h4>Horizontal form label sizing</h4>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="widget-content widget-content-area">
+                                  <form>
+                                      {% for key, value in data.items %}
+                                      <div class="form-group row  mb-4">
+                                          <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">{{key}}</label>
+                                          <div class="col-sm-10">
+                                              <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm" value="{{value}}">
+                                          </div>
+                                      </div>
+                                      {% endfor %}
+                                      <input type="submit" name="time" class="mb-4 btn btn-button-7">
+                                  </form>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    <!--  BEGIN FOOTER  -->
+    {% include 'tmplts/includes/footer.html' %}
+    <!--  END FOOTER  -->
+
+    <!--  BEGIN CONTROL SIDEBAR  -->
+    {% include 'tmplts/includes/controlsidebar.html' %}
+    <!--  END CONTROL SIDEBAR  -->
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% get_attribute 'HOME_PAGE' %}static/plugins/table/datatable/datatables.js"></script>
+    <script>
+
+        c3 = $('#customer-info-detail-3').DataTable({
+            "lengthMenu": [ 5, 10, 20, 50, 100 ],
+            "language": {
+                "paginate": {
+                  "previous": "<i class='flaticon-arrow-left-1'></i>",
+                  "next": "<i class='flaticon-arrow-right'></i>"
+                },
+                "info": "Showing page _PAGE_ of _PAGES_"
+            }
+        });
+
+        multiCheck(c3);
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+</body>
+</html>

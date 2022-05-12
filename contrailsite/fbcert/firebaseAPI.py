@@ -30,14 +30,17 @@ def getCargoTypes(name=''):
     return arr
 
 
-def getCountries(name=''):
+def getCountries(name='', id=''):
 
     collection = db.collection(u'countries')
 
+    query = collection.order_by('name')
+
     if name != '':
-        query = collection.where(u'name', u'==', name)
-    else:
-        query = collection.order_by('name')
+        query = query.where(u'name', u'==', name)
+
+    if id != '':
+        query = query.where(u'id', u'==', id)
 
     docs = query.stream()
 
@@ -49,7 +52,7 @@ def getCountries(name=''):
     return arr
 
 
-def getPorts(name='', country=''):
+def getPorts(name='', country='', id=''):
 
     collection = db.collection(u'ports')
 
@@ -57,6 +60,9 @@ def getPorts(name='', country=''):
 
     if name != '':
         query = query.start_at([name]).end_at([name + '\uf8ff'])
+
+    if id != '':
+        query = query.where(u'id', u'==', id)
 
     if country != '':
         query = query.where(u'country.name', u'==', country)
@@ -167,12 +173,53 @@ def setData():
                     doc_ref.set(x)
 
 
+class Country:
+
+    def __init__(self, id):
+
+        self.id = id
+        self.getObject()
+
+    def getObject(self):
+
+        data = getCountries(name=self.id)
+
+        if len(data) > 0:
+
+            for i in data[0].keys():
+                setattr(self, i, data[0][i])
+
+        print(self.__dict__)
+
+
 class Port:
 
-    emp_count = 0
+    def __init__(self, id):
 
-    def __init__(self, id):  
-        self.name = name
-        self.salary = salary
-        Employee.emp_count += 1
+        self.id = id
+        self.getObject()
+
+    def getObject(self):
+
+        data = getPorts(id=self.id)
+
+        setattr(self, 'name', data[0]['name'])
+        setattr(self, 'id', data[0]['id'])
+        setattr(self, 'country', Country(data[0]['country']['name']))
+
+
+class Container:
+
+    def __init__(self, id):
+
+        self.id = id
+        self.getObject()
+
+    def getObject(self):
+
+        data = getCargoTypes(name=self.id)
+
+        setattr(self, 'name', data[0]['name'])
+        setattr(self, 'iso', data[0]['iso'])
+
 # getCountries()

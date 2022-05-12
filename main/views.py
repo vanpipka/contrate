@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse
 import contrailsite.fbcert.firebaseAPI as firebaseAPI
-import firebase_admin
-from firebase_admin import credentials, db
 # Create your views here.
 
 
@@ -123,13 +121,28 @@ def airports(request):
 def port(request):
 
     id = request.GET.get("id", 'H&*78fegt834pgth3p')
-    data = firebaseAPI.getPorts(id=id)
 
-    for i in data:
-        print(i['name'], i['latitude'], i['longitude'])
+    print(id)
+
+    port = firebaseAPI.Port(id)
 
     return render(
         request,
-        'tmplts/portsmap.html',
-        context={"data": countries}
+        'tmplts/dataform.html',
+        context={"data": port.__dict__, "h3": "Порт: " + port.name}
+    )
+
+
+def container(request):
+
+    id = request.GET.get("id", 'H&*78fegt834pgth3p')
+
+    print(id)
+
+    data = firebaseAPI.Container(id)
+
+    return render(
+        request,
+        'tmplts/dataform.html',
+        context={"data": data.__dict__, "h3": "Контейнер: " + data.name}
     )
