@@ -1,7 +1,8 @@
 __pycache__
 __init__.py
 contrailsite/settings.py
-contrailsite/fbcert/*
+contrailsite/fbcert/contrate-5064b-firebase-adminsdk-kraka-ae13d9defa.json
+contrailsite/fbcert/setports.py
 db.sqlite3
 manage.py
 myvenv/
