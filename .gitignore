@@ -4,7 +4,6 @@ contrailsite/settings.py
 contrailsite/fbcert/contrate-5064b-firebase-adminsdk-kraka-ae13d9defa.json
 contrailsite/fbcert/setports.py
 db.sqlite3
-manage.py
 myvenv/
 main/templates/ltr*
 main/migrations*
