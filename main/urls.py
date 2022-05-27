@@ -19,6 +19,7 @@ urlpatterns = [
 
     # СПИСКИ
     path('referencebook/countries/', views.countries, name='countries'),
+    path('referencebook/cargoTypes/', views.cargoTypes, name='cargoTypes'),
     path('referencebook/airports/', views.airports, name='airports'),
     path('referencebook/countriesmap/', views.countriesmap, name='countriesmap'),
     path('referencebook/containers/', views.containers, name='containers'),
@@ -27,4 +28,5 @@ urlpatterns = [
     # ФОРМЫ
     path('referencebook/port/', views.port, name='port'),
     path('referencebook/container/', views.container, name='container'),
+    path('referencebook/cargoType/', views.cargoType, name='cargoType'),
 ]

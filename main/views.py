@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 import contrailsite.fbcert.firebaseAPI as firebaseAPI
+import contrailsite.DB.connector as DBConnector
+from .forms import CargoTypeForm, TransportUnitForm
+from .models import CargoType, TransportUnit
 # Create your views here.
 
 
@@ -71,6 +75,8 @@ def countriesmap(request):
 
 def containers(request):
 
+    print(DBConnector.getCargoTypes())
+
     data = firebaseAPI.getCargoTypes('')
     arr_th = []
 
@@ -100,6 +106,22 @@ def ports(request):
     )
 
 
+def cargoTypes(request):
+
+    data = CargoType.get_all()
+
+    arr_th = []
+    if len(data) != 0:
+        for i in data[0].keys():
+            arr_th.append(i)
+
+    return render(
+        request,
+        'tmplts/datatable.html',
+        context={"data": data, "h3": "Типы транспортных единиц", "headers": arr_th}
+    )
+
+
 def airports(request):
 
     data = firebaseAPI.getAirports('')
@@ -117,6 +139,28 @@ def airports(request):
 
 
 # Формы
+
+def cargoType(request):
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = CargoTypeForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        id = request.GET.get("id", 'H&*78fegt834pgth3p')
+        odj = get_object_or_404(CargoType, id=id)
+        form = CargoTypeForm(instance=odj)
+
+    return render(request, 'tmplts/dataform.html', {'form': form})
+
 
 def port(request):
 
