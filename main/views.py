@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 import contrailsite.fbcert.firebaseAPI as firebaseAPI
 import contrailsite.DB.connector as DBConnector
@@ -45,6 +45,31 @@ def index(request):
 
 # Справочники
 
+def cargoTypes(request):
+    
+    return render(
+        request,
+        'tmplts/datatable.html',
+        context={"h3": "Типы транспортных единиц",
+                "headers": CargoType.get_heading(),
+                "url": CargoType.get_url(),
+                "form": CargoTypeForm()
+            }
+    )
+
+
+def transportUnits(request):
+
+    return render(
+        request,
+        'tmplts/datatable.html',
+        context={"h3": "Транспортные единицы",
+                "headers": TransportUnit.get_heading(),
+                "url": TransportUnit.get_url()
+            }
+    )
+
+
 def countries(request):
 
     data = firebaseAPI.getCountries('')
@@ -75,8 +100,6 @@ def countriesmap(request):
 
 def containers(request):
 
-    print(DBConnector.getCargoTypes())
-
     data = firebaseAPI.getCargoTypes('')
     arr_th = []
 
@@ -103,22 +126,6 @@ def ports(request):
         request,
         'tmplts/portsmap.html',
         context={"data": countries}
-    )
-
-
-def cargoTypes(request):
-
-    data = CargoType.get_all()
-
-    arr_th = []
-    if len(data) != 0:
-        for i in data[0].keys():
-            arr_th.append(i)
-
-    return render(
-        request,
-        'tmplts/datatable.html',
-        context={"data": data, "h3": "Типы транспортных единиц", "headers": arr_th}
     )
 
 
@@ -162,6 +169,28 @@ def cargoType(request):
     return render(request, 'tmplts/dataform.html', {'form': form})
 
 
+def transportUnit(request):
+
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = TransportUnitForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        id = request.GET.get("id", 'H&*78fegt834pgth3p')
+        odj = get_object_or_404(TransportUnit, id=id)
+        form = TransportUnitForm(instance=odj)
+
+    return render(request, 'tmplts/dataform.html', {'form': form})
+
+
 def port(request):
 
     id = request.GET.get("id", 'H&*78fegt834pgth3p')
@@ -190,3 +219,49 @@ def container(request):
         'tmplts/dataform.html',
         context={"data": data.__dict__, "h3": "Контейнер: " + data.name}
     )
+
+
+# ADDITIONAL FUNC
+
+def get_headers(data):
+
+    arr_th = []
+    if len(data) != 0:
+        for i in data[0].keys():
+            if i == 'id' or i == 'url':
+                continue
+            arr_th.append(i)
+
+    return arr_th
+
+
+# api
+
+def default_result():
+
+    return {
+            "total": 0,
+            "totalNotFiltered": 0,
+            "rows": []
+        }
+
+def api_transportUnits(request):
+
+    result = default_result()
+
+    if request.method == 'GET':
+
+        result = TransportUnit.get_all(params=request.GET)
+
+    return JsonResponse(result)
+
+
+def api_cargoTypes(request):
+
+    result = default_result()
+
+    if request.method == 'GET':
+
+        result = CargoType.get_all(params=request.GET)
+
+    return JsonResponse(result)
